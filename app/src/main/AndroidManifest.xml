@@ -43,6 +43,10 @@
             android:name=".PlayMap"
             android:label="@string/title_activity_play_map" >
         </activity>
+        <activity
+            android:name=".HowToPlay"
+            android:label="@string/title_activity_how_to_play" >
+        </activity>
     </application>
 
 </manifest>
