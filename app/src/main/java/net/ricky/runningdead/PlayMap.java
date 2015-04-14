@@ -1,17 +1,32 @@
 package net.ricky.runningdead;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class PlayMap extends ActionBarActivity {
+
+public class PlayMap extends FragmentActivity implements GoogleMap.OnMapClickListener {
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_map);
+
+
+        // Try to obtain the map from the supportMapFragment
+        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+
+        mMap.setOnMapClickListener(this);
     }
 
 
@@ -20,6 +35,8 @@ public class PlayMap extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_play_map, menu);
         return true;
+
+
     }
 
     @Override
@@ -35,5 +52,12 @@ public class PlayMap extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMapClick(LatLng position) {
+        /*mMap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+        );*/
+        //System.out.println("MAP is = "+mMap.toString());
     }
 }
