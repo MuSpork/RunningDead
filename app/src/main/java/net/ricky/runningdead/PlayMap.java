@@ -23,8 +23,8 @@ public class PlayMap extends FragmentActivity implements GoogleMap.OnMapClickLis
         setContentView(R.layout.activity_play_map);
 
 
-        // Try to obtain the map from the supportMapFragment
-        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+            // Try to obtain the map from the supportMapFragment
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 
         mMap.setOnMapClickListener(this);
     }
