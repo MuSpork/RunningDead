@@ -56,8 +56,8 @@ public class PlayMap extends FragmentActivity implements GoogleMap.OnMapClickLis
 
     @Override
     public void onMapClick(LatLng position) {
-        /*mMap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
-        );*/
+        mMap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.mipmap.zombie1.png))
+        );
         //System.out.println("MAP is = "+mMap.toString());
     }
 }
