@@ -15,16 +15,21 @@ import android.view.MenuItem;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class PlayMap extends ActionBarActivity implements LocationListener{
+public class PlayMap extends ActionBarActivity implements LocationListener, GoogleMap.OnMapClickListener {
     GoogleMap googlemap;
+    int clickCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_map);
         initMap();
+
     }
 
 
@@ -61,7 +66,7 @@ public class PlayMap extends ActionBarActivity implements LocationListener{
     public void onProviderEnabled(String provider) {
 
     }
-
+    //Create an AlertDialog if GPS is not on.
     public void onProviderDisabled(String provider) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("GPS is disabled");
@@ -85,12 +90,37 @@ public class PlayMap extends ActionBarActivity implements LocationListener{
     }
 
 
-
+    //Initialise Map and also SetLocation to true for ActiveGPS Tracking
     private void initMap(){
         final SupportMapFragment mf = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         googlemap = mf.getMap();
         googlemap.setMyLocationEnabled(true);
         googlemap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        googlemap.setOnMapClickListener(this);
+    }
+
+    @Override
+    public void onMapClick(LatLng position) {
+        //if(clickCount==0) {
+            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1)));
+            //clickCount++;
+            //}
+
+
+            /*
+        if(clickCount==1) {
+            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie2)));
+            clickCount++;
+        }
+        if(clickCount==2){
+            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie3)));
+            clickCount++;
+        }else{
+            clickCount=0;
+        }*/
+
     }
 
 }
+
