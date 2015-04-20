@@ -6,4 +6,14 @@
     <string name="title_activity_play_map">Running Dead</string>
     <string name="play">Play</string>
     <string name="mainMenuName">Menu</string>
+    <string name="title_activity_how_to_play">How To Play</string>
+
+    //How To Play Page / Getting Started
+    <string name="how_to_play">HOW TO PLAY</string>
+    <string name="getting_started_1">GETTING STARTED</string>
+    <string name="getting_started_2">Running Dead is a fitness application that forces you to exercise to
+                                     survive the virtual zombie attack!</string>
+    <string name="getting_started_3">To start playing, tap play and register an account.</string>
+    <string name="next_button">NEXT</string>
+    //How To Play Page / Learn To Play
 </resources>
