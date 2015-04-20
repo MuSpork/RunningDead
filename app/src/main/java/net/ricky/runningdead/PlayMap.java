@@ -14,13 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class PlayMap extends ActionBarActivity implements LocationListener, GoogleMap.OnMapClickListener {
+public class PlayMap extends ActionBarActivity implements LocationListener, GoogleMap.OnMapClickListener, OnMapReadyCallback {
     GoogleMap googlemap;
     int clickCount = 0;
     int clickbtn = 0;
@@ -70,7 +71,7 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
 
     //Create an AlertDialog if GPS is not on.
     public void onProviderDisabled(String provider) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+       /* AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("GPS is disabled");
         builder.setCancelable(false);
         builder.setPositiveButton("Enable GPS", new DialogInterface.OnClickListener() {
@@ -88,18 +89,17 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
         });
 
         AlertDialog alert = builder.create();
-        alert.show();
+        alert.show();*/
+        System.out.println("DISABLED GPS");
     }
 
 
     //Initialise Map and also SetLocation to true for ActiveGPS Tracking
     private void initMap() {
         final SupportMapFragment mf = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        googlemap = mf.getMap();
-        googlemap.setMyLocationEnabled(true);
-        googlemap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        googlemap.setOnMapClickListener(this);
+
+        mf.getMapAsync(this);
     }
 
     @Override
@@ -118,6 +118,14 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
             googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie3small)));
         }*/
         //}
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.setMyLocationEnabled(true);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.setOnMapClickListener(this);
+        googlemap = googleMap;
     }
 }
 
