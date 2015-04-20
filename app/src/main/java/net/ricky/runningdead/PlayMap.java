@@ -71,7 +71,7 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
 
     //Create an AlertDialog if GPS is not on.
     public void onProviderDisabled(String provider) {
-       /* AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("GPS is disabled");
         builder.setCancelable(false);
         builder.setPositiveButton("Enable GPS", new DialogInterface.OnClickListener() {
@@ -89,35 +89,19 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
         });
 
         AlertDialog alert = builder.create();
-        alert.show();*/
-        System.out.println("DISABLED GPS");
+        alert.show();
     }
 
 
     //Initialise Map and also SetLocation to true for ActiveGPS Tracking
     private void initMap() {
         final SupportMapFragment mf = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
-
         mf.getMapAsync(this);
     }
 
     @Override
     public void onMapClick(LatLng position) {
-        //if(clickbtn==0){
         googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
-        //clickCount++;
-        //}/*
-        //}clickbtn=clickCount;
-        /*
-        if(clickbtn==1){
-
-            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie2small)));
-        }
-        if(clickbtn==2){
-            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie3small)));
-        }*/
-        //}
     }
 
     @Override
