@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class PlayMap extends ActionBarActivity implements LocationListener, GoogleMap.OnMapClickListener {
     GoogleMap googlemap;
     int clickCount = 0;
+    int clickbtn = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +67,13 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
     public void onProviderEnabled(String provider) {
 
     }
+
     //Create an AlertDialog if GPS is not on.
     public void onProviderDisabled(String provider) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("GPS is disabled");
         builder.setCancelable(false);
-        builder.setPositiveButton("Enable GPS",new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Enable GPS", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent startGps = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -91,7 +93,7 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
 
 
     //Initialise Map and also SetLocation to true for ActiveGPS Tracking
-    private void initMap(){
+    private void initMap() {
         final SupportMapFragment mf = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         googlemap = mf.getMap();
         googlemap.setMyLocationEnabled(true);
@@ -102,25 +104,20 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
 
     @Override
     public void onMapClick(LatLng position) {
-        //if(clickCount==0) {
-            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1)));
-            //clickCount++;
-            //}
+        //if(clickbtn==0){
+        googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
+        //clickCount++;
+        //}/*
+        //}clickbtn=clickCount;
+        /*
+        if(clickbtn==1){
 
-
-            /*
-        if(clickCount==1) {
-            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie2)));
-            clickCount++;
+            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie2small)));
         }
-        if(clickCount==2){
-            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie3)));
-            clickCount++;
-        }else{
-            clickCount=0;
+        if(clickbtn==2){
+            googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie3small)));
         }*/
-
+        //}
     }
-
 }
 
