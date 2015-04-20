@@ -2,9 +2,32 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="35dp"
     tools:context="net.ricky.runningdead.RegisterActivity">
 
+    <TextView android:text="@string/registerScreen"
+        android:layout_centerHorizontal="true"
+        android:textSize="32sp"
+        android:layout_width="wrap_content"
+        android:id="@+id/registerScreen"
+        android:layout_height="wrap_content" />
+
+    <TextView android:text="@string/registerScreenPrompt1"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:id="@+id/registerScreenPrompt1" />
+
+    <TextView android:text="@string/registerScreenPrompt2"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:id="@+id/registerScreenPrompt2" />
+
     <EditText
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -13,6 +36,8 @@
         android:id="@+id/firstName" />
 
     <EditText
+
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -21,6 +46,8 @@
         android:id="@+id/lastName" />
 
     <EditText
+
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
@@ -30,6 +57,7 @@
         android:text="@string/emailAddress" />
 
     <EditText
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -38,6 +66,7 @@
         android:id="@+id/userName" />
 
     <EditText
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
@@ -46,12 +75,14 @@
         android:text="@string/password" />
 
     <EditText
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gender"
         android:text="@string/gender" />
 
     <EditText
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="date"
@@ -59,5 +90,12 @@
         android:id="@+id/dateOfBirth"
         android:layout_gravity="center_horizontal"
         android:text="@string/dateOfBirth" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done_button"
+        android:id="@+id/done_button"
+        android:layout_gravity="right" />
 
 </LinearLayout>

@@ -19,7 +19,12 @@
     //How To Play Page / Learn To Play
 
 
-    //RegisterActivity Strings
+    <!-- RegisterActivity Strings-->
+
+    <string name="registerScreen">Register Screen</string>
+    <string name="registerScreenPrompt1">Welcome to the register Screen</string>
+    <string name="registerScreenPrompt2">Please enter your details below to sign up for a free
+                                            Running Dead account:</string>
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
     <string name="emailAddress">Email Address</string>
@@ -27,6 +32,17 @@
     <string name="password">Password</string>
     <string name="gender">Gender</string>
     <string name="dateOfBirth">Date of Birth</string>
+    <string name="done_button">DONE</string>
+    <string name="title_activity_register_success">RegisterSuccess</string>
+
+    <!-- RegisterSuccessful Strings/Variables-->
+
+    <string name="registerSuccess">Register Successful!</string>
+    <string name="registerSuccessPrompt1">Your Registration has been completed</string>
+    <string name="registerSuccessPrompt2">Thanks for registering with Running Dead App
+                                                you may now login to play!</string>
+
+
 
 
 
