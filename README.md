@@ -1,2 +1,2 @@
 # Running Dead
-Where you for your shit virtually
+Where you run for your shit virtually

@@ -15,5 +15,37 @@
                                      survive the virtual zombie attack!</string>
     <string name="getting_started_3">To start playing, tap play and register an account.</string>
     <string name="next_button">NEXT</string>
+    <string name="title_activity_register">Register Activity</string>
     //How To Play Page / Learn To Play
+
+
+    <!-- RegisterActivity Strings-->
+
+    <string name="registerScreen">Register Screen</string>
+    <string name="registerScreenPrompt1">Welcome to the register Screen</string>
+    <string name="registerScreenPrompt2">Please enter your details below to sign up for a free
+                                            Running Dead account:</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="emailAddress">Email Address</string>
+    <string name="userName">User Name</string>
+    <string name="password">Password</string>
+    <string name="gender">Gender</string>
+    <string name="dateOfBirth">Date of Birth</string>
+    <string name="done_button">DONE</string>
+    <string name="title_activity_register_success">RegisterSuccess</string>
+
+    <!-- RegisterSuccessful Strings/Variables-->
+
+    <string name="registerSuccess">Register Successful!</string>
+    <string name="registerSuccessPrompt1">Your Registration has been completed</string>
+    <string name="registerSuccessPrompt2">Thanks for registering with the Running Dead App
+                                                you may now login to play! Watch your step though!!
+                                                There's a zombie behind you!!!</string>
+
+
+
+
+
+
 </resources>
