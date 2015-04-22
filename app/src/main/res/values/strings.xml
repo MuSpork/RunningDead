@@ -39,10 +39,7 @@
 
     <string name="registerSuccess">Register Successful!</string>
     <string name="registerSuccessPrompt1">Your Registration has been completed</string>
-    <string name="registerSuccessPrompt2">Thanks for registering with the Running Dead App
-                                                you may now login to play! Watch your step though!!
-                                                There's a zombie behind you!!!</string>
-
+    <string name="registerSuccessPrompt2">Thanks for registering with the Running Dead App</string>
 
 
 
