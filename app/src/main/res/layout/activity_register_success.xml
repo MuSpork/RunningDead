@@ -28,7 +28,7 @@
             android:paddingTop="10dp"
             android:id="@+id/registerSuccessPrompt1" />
 
-        <TextView android:text="@string/registerSuccessPrompt2"
+        <TextView android:text="@string/registerSuccessPrompt3"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
