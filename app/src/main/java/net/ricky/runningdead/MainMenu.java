@@ -16,7 +16,7 @@ public class MainMenu extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         Button playButton = (Button) findViewById(R.id.playButton);
-        Button howToPlay = (Button) findViewById(R.id.howPlayButton);
+        Button howToPlay = (Button) findViewById(R.id.howToPlayButton);
         setTitle("Main Menu");
         final Intent intent = new Intent(this,PlayMap.class);
         final Intent intent1 = new Intent(this,HowToPlay.class);

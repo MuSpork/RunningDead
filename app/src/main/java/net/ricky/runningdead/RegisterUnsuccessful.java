@@ -1,36 +1,27 @@
 package net.ricky.runningdead;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 
-public class HowToPlay extends ActionBarActivity {
+
+//needs onClick listener for button and needs to be linked to registerActivity
+
+public class RegisterUnsuccessful extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_how_to_play);
-        Button learnToPlay = (Button) findViewById(R.id.NextButton1);
-        final Intent learn2Play = new Intent(this,LearnToPlay.class);
-        learnToPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(learn2Play);
-            }
-        });
-
+        setContentView(R.layout.activity_register_unsuccessful);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_how_to_play, menu);
+        getMenuInflater().inflate(R.menu.menu_register_unsuccessful, menu);
         return true;
     }
 

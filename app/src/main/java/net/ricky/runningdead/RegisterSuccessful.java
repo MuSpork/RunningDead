@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
-public class RegisterSuccess extends ActionBarActivity {
+//needs onclick listener for button and needs to be linked to registerActivity
+public class RegisterSuccessful extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_success);
+        setContentView(R.layout.activity_register_successful);
     }
 
 

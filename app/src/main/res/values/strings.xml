@@ -1,4 +1,4 @@
-<resources>
+ <resources>
     <string name="app_name">Running Dead</string>
 
     <string name="hello_world">Hello world!</string>
@@ -6,21 +6,41 @@
     <string name="title_activity_play_map">Running Dead</string>
     <string name="play">Play</string>
     <string name="mainMenuName">Menu</string>
-    <string name="title_activity_how_to_play">How To Play</string>
 
     //How To Play Page / Getting Started
+    <string name="title_activity_how_to_play">How To Play</string>
     <string name="how_to_play">HOW TO PLAY</string>
     <string name="getting_started_1">GETTING STARTED</string>
     <string name="getting_started_2">Running Dead is a fitness application that forces you to exercise to
                                      survive the virtual zombie attack!</string>
     <string name="getting_started_3">To start playing, tap play and register an account.</string>
     <string name="next_button">NEXT</string>
-    <string name="title_activity_register">Register Activity</string>
+
     //How To Play Page / Learn To Play
+    <string name="title_activity_learn_to_play">LearnToPlay</string>
+    <string name="learn_to_play">HOW TO PLAY</string>
+    <string name="learning_1">LEARNING TO PLAY</string>
+    <string name="learning_2">Login to Running Dead</string>
+    <string name="learning_3">To Play, Enable the GPS function on your phone and tap Play.</string>
+    <string name="learning_4">You are now viewing the Map, tap the Centre Location button in the top right hand corner and
+       the screen will now centre to your current location.</string>
+    <string name="learning_5">In this game you will need to accumulate points for the distances you cover.</string>
+    <string name="next_button2">NEXT</string>
+
+    //How To Play Page /Playing The Game
+    <string name="playing_the_game">HOW TO PLAY</string>
+    <string name="playing_1">PLAYING THE GAME</string>
+    <string name="playing_2">Zombies will now spawn around your Immediate Location, The objective of the game is to avoid these zombies while trying to reach the Finish Line</string>
+    <string name="playing_3">In this game you will need to accumulate points for the distances you cover, Try to get as far as you can!</string>
+    <string name="playing_4">Support for Multi-player Coming Soon!</string>
+    <string name="playing_5">It is time to start Playing!</string>
+    <string name="next_button3">BACK TO MENU</string>
+
 
 
     <!-- RegisterActivity Strings-->
 
+    <string name="title_activity_register">Register Activity</string>
     <string name="registerScreen">Register Screen</string>
     <string name="registerScreenPrompt1">Welcome to the register Screen</string>
     <string name="registerScreenPrompt2">Please enter your details below to sign up for a free
@@ -33,11 +53,28 @@
     <string name="gender">Gender</string>
     <string name="dateOfBirth">Date of Birth</string>
     <string name="done_button">DONE</string>
-    <string name="title_activity_register_success">RegisterSuccess</string>
+
 
     <!-- RegisterSuccessful Strings/Variables-->
 
+    <string name="title_activity_register_success">RegisterSuccess</string>
     <string name="registerSuccess">Register Successful!</string>
     <string name="registerSuccessPrompt1">Your Registration has been completed</string>
     <string name="registerSuccessPrompt3">Thanks for registering with Running Dead!</string>
+
+    <string name="done_button2">BACK TO MENU</string>
+
+    <!-- RegisterUnsuccessful Strings/Variables-->
+
+    <string name="title_activity_register_unsuccessful">RegisterUnsuccessful</string>
+    <string name="registerFail">Registration Unsuccessful!</string>
+    <string name="registerFailPrompt1">Your Registration has been unsuccessful</string>
+    <string name="registerFailPrompt3">Please click the button below to try again.</string>
+    <!--<string name="registerFailPrompt4"></string>-->
+    <string name="done_button3">TRY AGAIN</string>
+    <string name="title_activity_playing_the_game">PlayingTheGame</string>
+
+    <!-- LoginMenu Strings/Variables-->
+
+
 </resources>

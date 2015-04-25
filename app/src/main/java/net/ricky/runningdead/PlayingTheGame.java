@@ -9,18 +9,18 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class HowToPlay extends ActionBarActivity {
+public class PlayingTheGame extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_how_to_play);
-        Button learnToPlay = (Button) findViewById(R.id.NextButton1);
-        final Intent learn2Play = new Intent(this,LearnToPlay.class);
-        learnToPlay.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_playing_the_game);
+        Button back2menu = (Button) findViewById(R.id.NextButton3);
+        final Intent menuIntent = new Intent(this,MainMenu.class);
+        back2menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(learn2Play);
+                startActivity(menuIntent);
             }
         });
 
@@ -30,7 +30,7 @@ public class HowToPlay extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_how_to_play, menu);
+        getMenuInflater().inflate(R.menu.menu_playing_the_game, menu);
         return true;
     }
 
