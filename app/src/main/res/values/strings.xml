@@ -7,19 +7,18 @@
     <string name="play">Play</string>
     <string name="mainMenuName">Menu</string>
 
-    //How To Play Page / Getting Started
+     <!-- How to Play How to Play-->
     <string name="title_activity_how_to_play">How To Play</string>
     <string name="how_to_play">HOW TO PLAY</string>
     <string name="getting_started_1">GETTING STARTED</string>
     <string name="getting_started_2">Running Dead is a fitness application that forces you to exercise to
-                                     survive the virtual zombie attack!</string>
-    <string name="getting_started_3">To start playing, tap play and register an account.</string>
+                                     survive the virtual zombie attack!\n\nTo start playing, tap play and register an account.</string>
     <string name="next_button">NEXT</string>
 
-    //How To Play Page / Learn To Play
+     <!-- How to Play Learning to Play-->
     <string name="title_activity_learn_to_play">Learn To Play</string>
     <string name="learn_to_play">HOW TO PLAY</string>
-    <string name="learning_1">LEARNING TO PLAY</string>
+     <string name="learning_1">LEARNING TO PLAY</string>
     <string name="learning_2">Login to Running Dead</string>
     <string name="learning_3">To Play, Enable the GPS function on your phone and tap Play.</string>
     <string name="learning_4">You are now viewing the Map, tap the Centre Location button in the top right hand corner and
@@ -27,7 +26,7 @@
     <string name="learning_5">In this game you will need to accumulate points for the distances you cover.</string>
     <string name="next_button2">NEXT</string>
 
-    //How To Play Page /Playing The Game
+    <!-- How to Play Learning to Play-->
     <string name="title_activity_playing_the_game">Playing The Game</string>
     <string name="playing_the_game">HOW TO PLAY</string>
     <string name="playing_1">PLAYING THE GAME</string>

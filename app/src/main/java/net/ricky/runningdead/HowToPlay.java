@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class HowToPlay extends ActionBarActivity {
@@ -16,11 +17,13 @@ public class HowToPlay extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_how_to_play);
         Button learnToPlay = (Button) findViewById(R.id.NextButton1);
+        final TextView view = (TextView)findViewById(R.id.gettingStarted);
         final Intent learn2Play = new Intent(this,LearnToPlay.class);
         learnToPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(learn2Play);
+                //startActivity(learn2Play);
+                view.setText("BHOO");
             }
         });
 
