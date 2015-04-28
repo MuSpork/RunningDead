@@ -59,14 +59,6 @@
             android:name=".RegisterUnsuccessful"
             android:label="@string/title_activity_register_unsuccessful" >
         </activity>
-        <activity
-            android:name=".LearnToPlay"
-            android:label="@string/title_activity_learn_to_play" >
-        </activity>
-        <activity
-            android:name=".PlayingTheGame"
-            android:label="@string/title_activity_playing_the_game" >
-        </activity>
     </application>
 
 </manifest>

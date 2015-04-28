@@ -12,13 +12,13 @@
         android:weightSum="1">
 
         <TextView
-            android:layout_width="385dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textSize="32sp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/getting_started_1"
-            android:id="@+id/gettingStartedTitle" />
+            android:id="@+id/headingTitle" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
             android:paddingTop="15dp"
             android:textSize="20sp"
             android:text="@string/getting_started_2"
-            android:id="@+id/gettingStarted" />
+            android:id="@+id/contextText" />
 
     </LinearLayout>
 

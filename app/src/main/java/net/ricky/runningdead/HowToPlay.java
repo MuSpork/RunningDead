@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 
 public class HowToPlay extends ActionBarActivity implements View.OnClickListener {
+    int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_how_to_play);
         Button learnToPlay = (Button) findViewById(R.id.nextButton);
-        final Intent learn2Play = new Intent(this,LearnToPlay.class);
-        final int i = 0;
+        counter = 0;
         learnToPlay.setOnClickListener(this);
 
     }
@@ -48,10 +48,25 @@ public class HowToPlay extends ActionBarActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        final TextView view = (TextView)findViewById(R.id.gettingStarted);
-        final TextView view1 = (TextView)findViewById(R.id.gettingStartedTitle);
-        if(v.getId() == R.id.nextButton){
-            view.setText("d");
+        TextView view = (TextView)findViewById(R.id.contextText);
+        TextView title = (TextView)findViewById(R.id.headingTitle);
+        Button nextButton = (Button)findViewById(R.id.nextButton);
+        String[] resStrings = {getResources().getString(R.string.learning_2),getResources().getString(R.string.playing_2)};
+        String[] titles = {getResources().getString(R.string.learning_1),getResources().getString(R.string.playing_1)};
+
+        if(counter < resStrings.length){
+            view.setText(resStrings[counter]);
+            title.setText(titles[counter]);
+            if(counter == resStrings.length-1){
+                nextButton.setText(R.string.backToMain);
+            }
         }
+        else{
+            /*Intent intent = new Intent(this,MainMenu.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);*/
+            finish();
+        }
+        counter++;
     }
 }
