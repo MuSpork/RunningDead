@@ -10,22 +10,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-public class HowToPlay extends ActionBarActivity {
+public class HowToPlay extends ActionBarActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_how_to_play);
-        Button learnToPlay = (Button) findViewById(R.id.NextButton1);
-        final TextView view = (TextView)findViewById(R.id.gettingStarted);
+        Button learnToPlay = (Button) findViewById(R.id.nextButton);
         final Intent learn2Play = new Intent(this,LearnToPlay.class);
-        learnToPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //startActivity(learn2Play);
-                view.setText("BHOO");
-            }
-        });
+        final int i = 0;
+        learnToPlay.setOnClickListener(this);
 
     }
 
@@ -50,5 +44,14 @@ public class HowToPlay extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        final TextView view = (TextView)findViewById(R.id.gettingStarted);
+        final TextView view1 = (TextView)findViewById(R.id.gettingStartedTitle);
+        if(v.getId() == R.id.nextButton){
+            view.setText("d");
+        }
     }
 }

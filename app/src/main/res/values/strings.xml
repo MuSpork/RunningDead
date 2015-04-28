@@ -18,7 +18,7 @@
      <!-- How to Play Learning to Play-->
     <string name="title_activity_learn_to_play">Learn To Play</string>
     <string name="learn_to_play">HOW TO PLAY</string>
-     <string name="learning_1">LEARNING TO PLAY</string>
+     <string name="learning_1"><u>LEARNING TO PLAY</u></string>
     <string name="learning_2">Login to Running Dead</string>
     <string name="learning_3">To Play, Enable the GPS function on your phone and tap Play.</string>
     <string name="learning_4">You are now viewing the Map, tap the Centre Location button in the top right hand corner and
