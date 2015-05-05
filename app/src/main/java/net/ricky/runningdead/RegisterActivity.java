@@ -1,17 +1,24 @@
 package net.ricky.runningdead;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 //needs to implement onClickListener for the Done button
 
-public class RegisterActivity extends ActionBarActivity {
+public class RegisterActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        Intent intent = getIntent();
+        EditText userNameTextView = (EditText) findViewById(R.id.userName);
+        userNameTextView.setText(intent.getStringExtra("Username"));
     }
 
 

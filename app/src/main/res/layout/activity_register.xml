@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="35dp"
     tools:context="net.ricky.runningdead.RegisterActivity">
 
     <TextView android:text="@string/registerScreen"
@@ -31,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="@string/firstName"
+        android:hint="@string/firstName"
         android:ems="10"
         android:id="@+id/firstName" />
 
@@ -41,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="@string/lastName"
+        android:hint="@string/lastName"
         android:ems="10"
         android:id="@+id/lastName" />
 
@@ -54,14 +53,14 @@
         android:ems="10"
         android:id="@+id/emailAddress"
         android:layout_gravity="center_horizontal"
-        android:text="@string/emailAddress" />
+        android:hint="@string/emailAddress" />
 
     <EditText
         android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="@string/userName"
+        android:hint="@string/userName"
         android:ems="10"
         android:id="@+id/userName" />
 
@@ -72,14 +71,14 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/password"
-        android:text="@string/password" />
+        android:hint="@string/password" />
 
     <EditText
         android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gender"
-        android:text="@string/gender" />
+        android:hint="@string/gender" />
 
     <EditText
         android:paddingTop="15dp"
@@ -89,7 +88,7 @@
         android:ems="10"
         android:id="@+id/dateOfBirth"
         android:layout_gravity="center_horizontal"
-        android:text="@string/dateOfBirth" />
+        android:hint="@string/dateOfBirth" />
 
     <Button
         android:layout_width="wrap_content"
