@@ -13,12 +13,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.apache.http.io.SessionOutputBuffer;
+
+import java.util.Random;
 
 
 public class PlayMap extends ActionBarActivity implements LocationListener, GoogleMap.OnMapClickListener, OnMapReadyCallback {
@@ -97,12 +102,40 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
     private void initMap() {
         final SupportMapFragment mf = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mf.getMapAsync(this);
+
+    }
+
+    public LatLng getLastLocation(){
+        Location mylocation = googlemap.getMyLocation();
+
+        if(mylocation != null) {
+            double x = mylocation.getLongitude();
+            double y = mylocation.getLatitude();
+            LatLng lastLocation = new LatLng(x,y);
+
+            return lastLocation;
+        }else
+        return new LatLng(-36.8,174.6);
     }
 
     @Override
     public void onMapClick(LatLng position) {
-        googlemap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
+        Location mylocation = googlemap.getMyLocation();
+
+        System.out.println("Longitude: " + mylocation.getLongitude() + " Latitude: " + mylocation.getLatitude());
+        getZomLocation(mylocation.getLongitude(),mylocation.getLatitude(),100);
+
+        googlemap.addMarker(new MarkerOptions().position(position).title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
+
+        googlemap.addMarker(new MarkerOptions().position(getZomLocation(mylocation.getLongitude(),mylocation.getLatitude(),100)).title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
     }
+
+
+    private void centreMapToLastLocation() {
+    googlemap.animateCamera(CameraUpdateFactory.newLatLngZoom(getLastLocation(),3));
+
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -110,6 +143,34 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.setOnMapClickListener(this);
         googlemap = googleMap;
+        centreMapToLastLocation();
+        }
+
+    public static LatLng getZomLocation( double x0, double y0, int radius) {
+        Random random = new Random();
+        // Convert radius from meters to degrees
+        double radiusInDegrees = radius / 111000f;
+
+        double u = random.nextDouble();
+        double v = random.nextDouble();
+        double w = radiusInDegrees * Math.sqrt(u);
+        double t = 2 * Math.PI * v;
+        double x = w * Math.cos(t);
+        double y = w * Math.sin(t);
+
+        // Adjust the x-coordinate for the shrinking of the east-west distances
+        double new_x = x / Math.cos(y0);
+
+        double foundLongitude = new_x + x0;
+        double foundLatitude = y + y0;
+
+        System.out.println("Longitude: " + foundLongitude + "  Latitude: " + foundLatitude);
+
+        LatLng coords = new LatLng(foundLongitude, foundLatitude);
+
+        return coords;
     }
+
+
 }
 
