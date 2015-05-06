@@ -44,6 +44,7 @@
         <activity
             android:name=".PlayMap"
             android:label="@string/title_activity_play_map" >
+
         </activity>
         <activity
             android:name=".HowToPlay"

@@ -123,11 +123,12 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
         Location mylocation = googlemap.getMyLocation();
 
         System.out.println("Longitude: " + mylocation.getLongitude() + " Latitude: " + mylocation.getLatitude());
-        getZomLocation(mylocation.getLongitude(),mylocation.getLatitude(),100);
+        //getZomLocation(mylocation.getLongitude(),mylocation.getLatitude(),100);
+        //System.out.println(position);
+        //LatLng g = getZomLocation(mylocation.getLongitude(),mylocation.getLatitude(),20);
+        //googlemap.addMarker(new MarkerOptions().position(position).title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
+        googlemap.addMarker(new MarkerOptions().position(getZombieLocation(mylocation.getLatitude(),mylocation.getLongitude(),100)/*new LatLng(174.6009052,-36.8725)*/).title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
 
-        googlemap.addMarker(new MarkerOptions().position(position).title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
-
-        googlemap.addMarker(new MarkerOptions().position(getZomLocation(mylocation.getLongitude(),mylocation.getLatitude(),100)).title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
     }
 
 
@@ -146,8 +147,9 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
         centreMapToLastLocation();
         }
 
-    public static LatLng getZomLocation( double x0, double y0, int radius) {
+    public static LatLng getZombieLocation(double x0, double y0, int radius) {
         Random random = new Random();
+
         // Convert radius from meters to degrees
         double radiusInDegrees = radius / 111000f;
 
@@ -163,13 +165,11 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
 
         double foundLongitude = new_x + x0;
         double foundLatitude = y + y0;
-
-        System.out.println("Longitude: " + foundLongitude + "  Latitude: " + foundLatitude);
-
-        LatLng coords = new LatLng(foundLongitude, foundLatitude);
-
-        return coords;
+        System.out.println("Longitude: " + foundLongitude + "  Latitude: " + foundLatitude );
+        LatLng g = new LatLng(foundLongitude,foundLatitude);
+        return  g;
     }
+
 
 
 }
