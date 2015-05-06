@@ -25,7 +25,6 @@ import org.apache.http.io.SessionOutputBuffer;
 
 import java.util.Random;
 
-
 public class PlayMap extends ActionBarActivity implements LocationListener, GoogleMap.OnMapClickListener, OnMapReadyCallback {
     GoogleMap googlemap;
     int clickCount = 0;
@@ -121,13 +120,9 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
     @Override
     public void onMapClick(LatLng position) {
         Location mylocation = googlemap.getMyLocation();
+        //System.out.println("Longitude: " + mylocation.getLongitude() + " Latitude: " + mylocation.getLatitude());
 
-        System.out.println("Longitude: " + mylocation.getLongitude() + " Latitude: " + mylocation.getLatitude());
-        //getZomLocation(mylocation.getLongitude(),mylocation.getLatitude(),100);
-        //System.out.println(position);
-        //LatLng g = getZomLocation(mylocation.getLongitude(),mylocation.getLatitude(),20);
-        //googlemap.addMarker(new MarkerOptions().position(position).title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
-        googlemap.addMarker(new MarkerOptions().position(getZombieLocation(mylocation.getLatitude(),mylocation.getLongitude(),100)/*new LatLng(174.6009052,-36.8725)*/).title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
+        googlemap.addMarker(new MarkerOptions().position(getZombieLocation(mylocation.getLatitude(),mylocation.getLongitude(),100)).title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
 
     }
 
@@ -168,6 +163,11 @@ public class PlayMap extends ActionBarActivity implements LocationListener, Goog
         System.out.println("Longitude: " + foundLongitude + "  Latitude: " + foundLatitude );
         LatLng g = new LatLng(foundLongitude,foundLatitude);
         return  g;
+    }
+
+    public void calculateDistance(){
+        Location currentLocation = googlemap.getMyLocation();
+
     }
 
 
