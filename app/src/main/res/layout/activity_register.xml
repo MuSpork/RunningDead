@@ -29,7 +29,7 @@
         android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences"
         android:hint="@string/firstName"
         android:ems="10"
         android:id="@+id/firstName" />
@@ -39,7 +39,7 @@
         android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences"
         android:hint="@string/lastName"
         android:ems="10"
         android:id="@+id/lastName" />
@@ -77,7 +77,8 @@
         android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/gender"
+        android:id="@+id/genderDropDown"
+        android:inputType="textShortMessage"
         android:hint="@string/gender" />
 
     <EditText
@@ -95,6 +96,6 @@
         android:layout_height="wrap_content"
         android:text="@string/done_button"
         android:id="@+id/done_button"
-        android:layout_gravity="right" />
+        android:layout_gravity="end" />
 
 </LinearLayout>

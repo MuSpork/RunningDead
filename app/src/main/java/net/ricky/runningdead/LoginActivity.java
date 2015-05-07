@@ -154,11 +154,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isUserNameValid(String userName) {
-        return userName.length() < 7;
+        return userName.length() < 12;
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 4;
+        return password.length() > 1;
     }
 
     /**
@@ -283,7 +283,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     launchMainActivity();
                     bool = true;
                 }
-                else if(response.equals("No User") && mPassword.equals("")){
+                else if(response.equals("No User")){
                     launchRegisterScreen(userName);
                     bool = true;
                 }
@@ -327,7 +327,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 finish();
-                System.out.println("Success = true");
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
