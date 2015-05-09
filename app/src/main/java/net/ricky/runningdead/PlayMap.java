@@ -180,10 +180,13 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
     public void onConnectionSuspended(int i) {
 
     }
-
+    /*
     public void checkpoint(){
-
-    }
+        Location mylocation = currentLocation;
+            googlemap.addMarker(new MarkerOptions().
+                    position(new LatLng(mylocation.getLatitude(), mylocation.getLongitude())).
+                    title("NFCtag").icon(BitmapDescriptorFactory.fromResource(R.drawable.checkpoint)));
+    }*/
 
 }
 
