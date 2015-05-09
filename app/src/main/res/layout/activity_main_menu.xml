@@ -21,4 +21,12 @@
         android:layout_marginTop="82dp"
         android:layout_below="@+id/playButton"
         android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nfcButton"
+        android:id="@+id/runNFCButton"
+        android:layout_marginTop="82dp"
+        android:layout_below="@+id/howToPlayButton"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -72,6 +72,10 @@
     <!--<string name="registerFailPrompt4"></string>-->
     <string name="done_button3">TRY AGAIN</string>
 
+    <!--RunningNFC Strings/Variables-->
+    <string name="nfcButton">Use NFC</string>
+    <string name="title_activity_running_nfc">RunningNFC</string>
+
     <!-- LoginMenu Strings/Variables-->
 
 

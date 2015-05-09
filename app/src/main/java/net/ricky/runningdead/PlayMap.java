@@ -180,5 +180,10 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
     public void onConnectionSuspended(int i) {
 
     }
+
+    public void checkpoint(){
+
+    }
+
 }
 

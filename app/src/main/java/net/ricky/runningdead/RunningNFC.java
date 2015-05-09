@@ -3,7 +3,10 @@ package net.ricky.runningdead;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.nfc.NfcEvent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,6 +29,30 @@ public class RunningNFC extends ActionBarActivity {
             Toast.makeText(this,"NFC is not available", Toast.LENGTH_LONG).show();
         }
     }
+
+    /*
+    @Override
+    public NdefMessage createNdefMessage(NfcEvent event) {
+        String text = ("Beam me up, Android!\n\n" +
+                "Beam Time: " + System.currentTimeMillis());
+        NdefMessage msg = new NdefMessage(
+                new NdefRecord[] { createMimeRecord(
+                        "application/com.example.hellonfcworld", text.getBytes())
+                        /**
+                         * The Android Application Record (AAR) is commented out. When a device
+                         * receives a push with an AAR in it, the application specified in the AAR
+                         * is guaranteed to run. The AAR overrides the tag dispatch system.
+                         * You can add it back in to guarantee that this
+                         * activity starts when receiving a beamed message. For now, this code
+                         * uses the tag dispatch system.
+                         *
+                        //,NdefRecord.createApplicationRecord("com.example.android.beam")
+                });
+        return msg;
+    }*/
+
+
+
 
     @Override
     protected void onNewIntent(Intent intent) {
