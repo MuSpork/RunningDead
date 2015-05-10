@@ -1,15 +1,25 @@
 package net.ricky.runningdead;
 
+import android.animation.ObjectAnimator;
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.Build;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.os.Bundle;
+import android.util.Property;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -20,13 +30,15 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.Random;
+import java.util.Timer;
 
 public class PlayMap extends Activity implements LocationListener, GoogleMap.OnMapClickListener,
-        OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, Runnable {
     GoogleMap googlemap;
     Location currentLocation;
     GoogleApiClient apiClient;
@@ -62,6 +74,9 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
     }
 
     public void onLocationChanged(Location location) {
+        googlemap.animateCamera(CameraUpdateFactory.
+                newLatLngZoom(new LatLng(currentLocation.getLatitude(),
+                        currentLocation.getLongitude()), 15));
 
     }
 
@@ -123,12 +138,43 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
 
 
     private void centreMapToLastLocation() {
-        if(currentLocation!= null) {
+        if (currentLocation != null) {
             googlemap.animateCamera(CameraUpdateFactory.
                     newLatLngZoom(new LatLng(currentLocation.getLatitude(),
                             currentLocation.getLongitude()), 15));
         }
     }
+
+    private void mapReadyDraw() {
+        if (currentLocation != null){
+            for(int i=1; i<=10;i++) {
+                if((i%3)==1) {
+                    googlemap.addMarker(new MarkerOptions().
+                            position(getZombieLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 100)).
+                            title("Zombie "+i).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
+                    }else
+                if((i%3)==2){
+                    googlemap.addMarker(new MarkerOptions().
+                            position(getZombieLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 100)).
+                            title("Zombie "+i).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie2small)));
+                }else
+                if((i%3)==0){
+                    googlemap.addMarker(new MarkerOptions().
+                            position(getZombieLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 100)).
+                            title("Zombie "+i).icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie3small)));
+                }
+                }
+        }
+    }
+
+    /* //Animate Zombies every 0.5 seconds to move towards player
+    private void moveZombies(){
+        Timer timer = new Timer();
+        timer.schedule(animateMarkerToGB("Zombie"+i,););
+
+        run();
+    }*/
+
 
 
     @Override
@@ -139,10 +185,13 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
         googlemap.setOnMapClickListener(this);
         // Instantiates a new Polyline object and adds points to define a rectangle
         centreMapToLastLocation();
+        mapReadyDraw();
+        /*
         PolylineOptions rectOptions = new PolylineOptions()
                 .add(new LatLng(-42.0000, 174.0000))
                 .add(new LatLng(-35.3080, 149.1245));
         Polyline polyline = googlemap.addPolyline(rectOptions);
+        */
     }
 
     public static LatLng getZombieLocation(double x0, double y0, int radius) {
@@ -162,8 +211,8 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
 
         double foundLongitude = newX + x0;
         double foundLatitude = y + y0;
-        LatLng g = new LatLng(foundLongitude,foundLatitude);
-        return  g;
+        LatLng g = new LatLng(foundLongitude, foundLatitude);
+        return g;
     }
 
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -172,7 +221,8 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
 
     @Override
     public void onConnected(Bundle bundle) {
-        currentLocation = LocationServices.FusedLocationApi.getLastLocation(apiClient);;
+        currentLocation = LocationServices.FusedLocationApi.getLastLocation(apiClient);
+        ;
         initMap();
     }
 
@@ -188,5 +238,74 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
                     title("NFCtag").icon(BitmapDescriptorFactory.fromResource(R.drawable.checkpoint)));
     }*/
 
-}
 
+    //***********************ANIMATE MARKER CODE***********************
+    static void animateMarkerToGB(final Marker marker, final LatLng finalPosition, final LatLngInterpolator latLngInterpolator) {
+        final LatLng startPosition = marker.getPosition();
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        final Interpolator interpolator = new AccelerateDecelerateInterpolator();
+        final float durationInMs = 3000;
+
+        handler.post(new Runnable() {
+            long elapsed;
+            float t;
+            float v;
+
+            @Override
+            public void run() {
+                // Calculate progress using interpolator
+                elapsed = SystemClock.uptimeMillis() - start;
+                t = elapsed / durationInMs;
+                v = interpolator.getInterpolation(t);
+
+                marker.setPosition(latLngInterpolator.interpolate(v, startPosition, finalPosition));
+
+                // Repeat till progress is complete.
+                if (t < 1) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16);
+                }
+            }
+        });
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    static void animateMarkerToHC(final Marker marker, final LatLng finalPosition, final LatLngInterpolator latLngInterpolator) {
+        final LatLng startPosition = marker.getPosition();
+
+        ValueAnimator valueAnimator = new ValueAnimator();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float v = animation.getAnimatedFraction();
+                LatLng newPosition = latLngInterpolator.interpolate(v, startPosition, finalPosition);
+                marker.setPosition(newPosition);
+            }
+        });
+        valueAnimator.setFloatValues(0, 1); // Ignored.
+        valueAnimator.setDuration(3000);
+        valueAnimator.start();
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    static void animateMarkerToICS(Marker marker, LatLng finalPosition, final LatLngInterpolator latLngInterpolator) {
+        TypeEvaluator<LatLng> typeEvaluator = new TypeEvaluator<LatLng>() {
+            @Override
+            public LatLng evaluate(float fraction, LatLng startValue, LatLng endValue) {
+                return latLngInterpolator.interpolate(fraction, startValue, endValue);
+            }
+        };
+        Property<Marker, LatLng> property = Property.of(Marker.class, LatLng.class, "position");
+        ObjectAnimator animator = ObjectAnimator.ofObject(marker, property, typeEvaluator, finalPosition);
+        animator.setDuration(3000);
+        animator.start();
+    }
+
+    @Override
+    public void run() {
+
+    }
+
+
+}
