@@ -21,9 +21,12 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-    <!-- The following permissions are required to use NFC-->
-    <uses-permission android:name="android.permission.NFC"/>
-    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+    <!-- The following permissions are required to use NFC -->
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -76,6 +79,10 @@
         <activity
             android:name=".RunningNFC"
             android:label="@string/title_activity_running_nfc" >
+        </activity>
+        <activity
+            android:name=".ScoreScreen"
+            android:label="@string/title_activity_score_screen" >
         </activity>
     </application>
 

@@ -18,10 +18,12 @@ public class MainMenu extends ActionBarActivity {
         Button playButton = (Button) findViewById(R.id.playButton);
         Button howToPlay = (Button) findViewById(R.id.howToPlayButton);
         Button useNFCButton = (Button) findViewById(R.id.runNFCButton);
+        Button scoreButton = (Button) findViewById(R.id.scoreButton);
         setTitle("Main Menu");
         final Intent intent = new Intent(this,PlayMap.class);
         final Intent intent1 = new Intent(this,HowToPlay.class);
         final Intent nfcIntent = new Intent(this,RunningNFC.class);
+        final Intent scoreIntent = new Intent(this,ScoreScreen.class);
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,12 +37,18 @@ public class MainMenu extends ActionBarActivity {
                 startActivity(intent1);
             }
         });
-
         useNFCButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
                 startActivity(nfcIntent);
+            }
+        });
+        scoreButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                startActivity(scoreIntent);
             }
         });
 

@@ -5,6 +5,7 @@
     <string name="title_activity_play_map">Running Dead</string>
     <string name="play">Play</string>
     <string name="mainMenuName">Menu</string>
+    <string name="viewscoreButton">View Score</string>
 
      <!-- How to Play How to Play-->
     <string name="title_activity_how_to_play">How To Play</string>
@@ -31,7 +32,7 @@
         this game you will need to accumulate points for the distances you cover,
         Try to get as far as you can!
         <!--new line-->\n\n<!--new line-->\t\t\t\t\t\t\tIt is time to start Playing!</string>g>
-     <string name="backToMain">Back to MainMenu</string>
+     <string name="backToMain">Back to Main Menu</string>
 
     <!-- RegisterActivity Strings-->
     <string name="title_activity_register">Register Activity</string>
@@ -78,5 +79,10 @@
 
     <!-- LoginMenu Strings/Variables-->
 
+    <!-- ScoreScreen Strings/Variables-->
+    <string name="title_activity_score_screen">ScoreScreen</string>
+    <string name="scoreScreen">Score</string>
+    <string name="scoreScreenPrompt">This is the Score Screen, your scores will be displayed here.</string>
+    <string name="distanceTravelled">Distance Travelled: </string>
 
 </resources>
