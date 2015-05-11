@@ -1,5 +1,14 @@
 package net.ricky.runningdead;
 
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.app.Activity;
+import android.content.Intent;
+import android.util.Log;
+import android.view.Menu;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
@@ -34,21 +43,44 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Timer;
 
-public class PlayMap extends Activity implements LocationListener, GoogleMap.OnMapClickListener,
+public class PlayMap extends Activity implements com.google.android.gms.location.LocationListener, GoogleMap.OnMapClickListener,
         OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, Runnable {
     GoogleMap googlemap;
     Location currentLocation;
+    Location newLocation;
     GoogleApiClient apiClient;
+    String string;
+    double distanceT;
+    boolean initByTag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_map);
         buildGoogleApiClient();
+        Intent intent = getIntent();
+        if(intent.getType() != null && intent.getType().equals("application/tag")) {
+            Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            NdefMessage msg = (NdefMessage) rawMsgs[0];
+            NdefRecord record = msg.getRecords()[0];
+            string = new String(record.getPayload());
+            initByTag = true;
+        }
         //initMap();
+    }
+
+    private void placeCheckpoint() {
+        if (initByTag == true) {
+                googlemap.addMarker(new MarkerOptions().
+                    position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).
+                    title(string).icon(BitmapDescriptorFactory.fromResource(R.drawable.checkpoint_icon)));
+
+        }
     }
 
     @Override
@@ -77,12 +109,12 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
         googlemap.animateCamera(CameraUpdateFactory.
                 newLatLngZoom(new LatLng(currentLocation.getLatitude(),
                         currentLocation.getLongitude()), 15));
+        newLocation = currentLocation;
+        calculateDistTravelled();
+        System.out.println(currentLocation);
 
     }
 
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
 
     public void onProviderEnabled(String provider) {
 
@@ -186,6 +218,8 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
         // Instantiates a new Polyline object and adds points to define a rectangle
         centreMapToLastLocation();
         mapReadyDraw();
+        placeCheckpoint();
+
         /*
         PolylineOptions rectOptions = new PolylineOptions()
                 .add(new LatLng(-42.0000, 174.0000))
@@ -222,14 +256,48 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
     @Override
     public void onConnected(Bundle bundle) {
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(apiClient);
-        ;
         initMap();
+        //placeMarker();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
 
     }
+    public void calculateDistTravelled(){
+        distanceT += calculateDistance(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()),new LatLng(newLocation.getLatitude(),newLocation.getLongitude()));
+        System.out.println(distanceT);
+    }
+
+    public double calculateDistance(LatLng StartP, LatLng EndP) {
+        int Radius=6371;//radius of earth in Km
+        double lat1 = StartP.latitude;
+        double lat2 = EndP.latitude;
+        double lon1 = StartP.longitude;
+        double lon2 = EndP.longitude;
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLon = Math.toRadians(lon2-lon1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double valueResult= Radius*c;
+        double km=valueResult/1;
+        DecimalFormat newFormat = new DecimalFormat("####");
+        int kmInDec =  Integer.valueOf(newFormat.format(km));
+        double meter=valueResult%1000;
+        int  meterInDec= Integer.valueOf(newFormat.format(meter));
+        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec + " Meter   " + meterInDec);
+
+        return Radius * c;
+    }
+
+
+
+
+
+
+
     /*
     public void checkpoint(){
         Location mylocation = currentLocation;
@@ -306,6 +374,8 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
     public void run() {
 
     }
+
+
 
 
 }

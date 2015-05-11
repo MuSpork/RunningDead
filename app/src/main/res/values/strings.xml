@@ -84,5 +84,7 @@
     <string name="scoreScreen">Score</string>
     <string name="scoreScreenPrompt">This is the Score Screen, your scores will be displayed here.</string>
     <string name="distanceTravelled">Distance Travelled: </string>
+     <string name="writeButton">Write to NFC Tag</string>
+     <string name="writeTag">Tag status</string>
 
-</resources>
+ </resources>

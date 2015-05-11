@@ -49,6 +49,12 @@
         <activity
             android:name=".PlayMap"
             android:label="@string/title_activity_play_map" >
+            <!-- Handle an NDEF record -->
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <data android:mimeType="application/tag"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".HowToPlay"
