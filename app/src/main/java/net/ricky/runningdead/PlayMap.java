@@ -23,6 +23,7 @@ import android.view.animation.Interpolator;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,14 +35,19 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 
-public class PlayMap extends Activity implements LocationListener, GoogleMap.OnMapClickListener,
+public class PlayMap extends Activity implements com.google.android.gms.location.LocationListener, GoogleMap.OnMapClickListener,
         OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, Runnable {
     GoogleMap googlemap;
     Location currentLocation;
     GoogleApiClient apiClient;
+    LocationRequest locationRequest;
+    String mLastUpdateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +79,30 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
         return super.onOptionsItemSelected(item);
     }
 
+
+    protected void createLocationRequest() {
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    protected void startLocationUpdates() {
+        LocationServices.FusedLocationApi.
+                requestLocationUpdates(apiClient, locationRequest, this);
+    }
+
+
+    @Override
     public void onLocationChanged(Location location) {
-        googlemap.animateCamera(CameraUpdateFactory.
-                newLatLngZoom(new LatLng(currentLocation.getLatitude(),
-                        currentLocation.getLongitude()), 15));
-
+        currentLocation = location;
+        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        updateUI();
     }
 
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    public void onProviderEnabled(String provider) {
-
+    private void updateUI() {
+        System.out.println(currentLocation.toString());
+        System.out.println(mLastUpdateTime);
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -98,30 +115,6 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
 
     }
 
-    //Create an AlertDialog if GPS is not on.
-    public void onProviderDisabled(String provider) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("GPS is disabled");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Enable GPS", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent startGps = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(startGps);
-            }
-        });
-        builder.setNegativeButton("Leave GPS off", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-
     //Initialise Map and also SetLocation to true for ActiveGPS Tracking
     private void initMap() {
         final MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
@@ -130,12 +123,8 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
 
     @Override
     public void onMapClick(LatLng position) {
-        Location mylocation = currentLocation;
-        googlemap.addMarker(new MarkerOptions().
-                position(getZombieLocation(mylocation.getLatitude(), mylocation.getLongitude(), 100)).
-                title("Zombie").icon(BitmapDescriptorFactory.fromResource(R.drawable.zombie1small)));
-    }
 
+    }
 
     private void centreMapToLastLocation() {
         if (currentLocation != null) {
@@ -166,16 +155,6 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
                 }
         }
     }
-
-    /* //Animate Zombies every 0.5 seconds to move towards player
-    private void moveZombies(){
-        Timer timer = new Timer();
-        timer.schedule(animateMarkerToGB("Zombie"+i,););
-
-        run();
-    }*/
-
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -221,9 +200,10 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
 
     @Override
     public void onConnected(Bundle bundle) {
-        currentLocation = LocationServices.FusedLocationApi.getLastLocation(apiClient);
-        ;
+        currentLocation = LocationServices.
+                FusedLocationApi.getLastLocation(apiClient);
         initMap();
+        startLocationUpdates();
     }
 
     @Override
@@ -306,6 +286,4 @@ public class PlayMap extends Activity implements LocationListener, GoogleMap.OnM
     public void run() {
 
     }
-
-
 }
