@@ -41,8 +41,8 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 
-public class PlayMap extends Activity implements com.google.android.gms.location.LocationListener, GoogleMap.OnMapClickListener,
-        OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, Runnable {
+public class PlayMap extends Activity implements com.google.android.gms.location.LocationListener,
+        OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     GoogleMap googlemap;
     Location currentLocation;
     GoogleApiClient apiClient;
@@ -54,7 +54,6 @@ public class PlayMap extends Activity implements com.google.android.gms.location
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_map);
         buildGoogleApiClient();
-        //initMap();
     }
 
     @Override
@@ -66,43 +65,53 @@ public class PlayMap extends Activity implements com.google.android.gms.location
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
 
     protected void createLocationRequest() {
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
+        locationRequest.setInterval(3000);
+        locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     protected void startLocationUpdates() {
+        createLocationRequest();
         LocationServices.FusedLocationApi.
                 requestLocationUpdates(apiClient, locationRequest, this);
     }
 
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                apiClient, this);
+    }
 
     @Override
     public void onLocationChanged(Location location) {
         currentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        updateUI();
+        drawTrail();
+        centreMapToLastLocation();
     }
 
-    private void updateUI() {
-        System.out.println(currentLocation.toString());
-        System.out.println(mLastUpdateTime);
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (apiClient.isConnected()) {
+            startLocationUpdates();
+        }
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -121,16 +130,11 @@ public class PlayMap extends Activity implements com.google.android.gms.location
         mf.getMapAsync(this);
     }
 
-    @Override
-    public void onMapClick(LatLng position) {
-
-    }
-
     private void centreMapToLastLocation() {
         if (currentLocation != null) {
             googlemap.animateCamera(CameraUpdateFactory.
                     newLatLngZoom(new LatLng(currentLocation.getLatitude(),
-                            currentLocation.getLongitude()), 15));
+                            currentLocation.getLongitude()), 19));
         }
     }
 
@@ -161,16 +165,14 @@ public class PlayMap extends Activity implements com.google.android.gms.location
         googlemap = googleMap;
         googlemap.setMyLocationEnabled(true);
         googlemap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googlemap.setOnMapClickListener(this);
-        // Instantiates a new Polyline object and adds points to define a rectangle
         centreMapToLastLocation();
         mapReadyDraw();
-        /*
-        PolylineOptions rectOptions = new PolylineOptions()
-                .add(new LatLng(-42.0000, 174.0000))
-                .add(new LatLng(-35.3080, 149.1245));
-        Polyline polyline = googlemap.addPolyline(rectOptions);
-        */
+    }
+
+    public void drawTrail(){
+        PolylineOptions options = new PolylineOptions();
+        options.add(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()));
+        googlemap.addPolyline(options);
     }
 
     public static LatLng getZombieLocation(double x0, double y0, int radius) {
@@ -190,8 +192,7 @@ public class PlayMap extends Activity implements com.google.android.gms.location
 
         double foundLongitude = newX + x0;
         double foundLatitude = y + y0;
-        LatLng g = new LatLng(foundLongitude, foundLatitude);
-        return g;
+        return new LatLng(foundLongitude, foundLatitude);
     }
 
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -208,82 +209,6 @@ public class PlayMap extends Activity implements com.google.android.gms.location
 
     @Override
     public void onConnectionSuspended(int i) {
-
-    }
-    /*
-    public void checkpoint(){
-        Location mylocation = currentLocation;
-            googlemap.addMarker(new MarkerOptions().
-                    position(new LatLng(mylocation.getLatitude(), mylocation.getLongitude())).
-                    title("NFCtag").icon(BitmapDescriptorFactory.fromResource(R.drawable.checkpoint)));
-    }*/
-
-
-    //***********************ANIMATE MARKER CODE***********************
-    static void animateMarkerToGB(final Marker marker, final LatLng finalPosition, final LatLngInterpolator latLngInterpolator) {
-        final LatLng startPosition = marker.getPosition();
-        final Handler handler = new Handler();
-        final long start = SystemClock.uptimeMillis();
-        final Interpolator interpolator = new AccelerateDecelerateInterpolator();
-        final float durationInMs = 3000;
-
-        handler.post(new Runnable() {
-            long elapsed;
-            float t;
-            float v;
-
-            @Override
-            public void run() {
-                // Calculate progress using interpolator
-                elapsed = SystemClock.uptimeMillis() - start;
-                t = elapsed / durationInMs;
-                v = interpolator.getInterpolation(t);
-
-                marker.setPosition(latLngInterpolator.interpolate(v, startPosition, finalPosition));
-
-                // Repeat till progress is complete.
-                if (t < 1) {
-                    // Post again 16ms later.
-                    handler.postDelayed(this, 16);
-                }
-            }
-        });
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    static void animateMarkerToHC(final Marker marker, final LatLng finalPosition, final LatLngInterpolator latLngInterpolator) {
-        final LatLng startPosition = marker.getPosition();
-
-        ValueAnimator valueAnimator = new ValueAnimator();
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float v = animation.getAnimatedFraction();
-                LatLng newPosition = latLngInterpolator.interpolate(v, startPosition, finalPosition);
-                marker.setPosition(newPosition);
-            }
-        });
-        valueAnimator.setFloatValues(0, 1); // Ignored.
-        valueAnimator.setDuration(3000);
-        valueAnimator.start();
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    static void animateMarkerToICS(Marker marker, LatLng finalPosition, final LatLngInterpolator latLngInterpolator) {
-        TypeEvaluator<LatLng> typeEvaluator = new TypeEvaluator<LatLng>() {
-            @Override
-            public LatLng evaluate(float fraction, LatLng startValue, LatLng endValue) {
-                return latLngInterpolator.interpolate(fraction, startValue, endValue);
-            }
-        };
-        Property<Marker, LatLng> property = Property.of(Marker.class, LatLng.class, "position");
-        ObjectAnimator animator = ObjectAnimator.ofObject(marker, property, typeEvaluator, finalPosition);
-        animator.setDuration(3000);
-        animator.start();
-    }
-
-    @Override
-    public void run() {
 
     }
 }
