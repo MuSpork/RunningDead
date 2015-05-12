@@ -1,25 +1,19 @@
 package net.ricky.runningdead;
 
-import android.animation.ObjectAnimator;
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
-import android.location.LocationListener;
-import android.os.Build;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.provider.Settings;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Property;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Interpolator;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -31,15 +25,16 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Random;
-import java.util.Timer;
 
 public class PlayMap extends Activity implements com.google.android.gms.location.LocationListener,
         OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -47,13 +42,14 @@ public class PlayMap extends Activity implements com.google.android.gms.location
     Location currentLocation;
     GoogleApiClient apiClient;
     LocationRequest locationRequest;
-    String mLastUpdateTime;
+    NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_map);
         buildGoogleApiClient();
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
     }
 
     @Override
@@ -72,6 +68,41 @@ public class PlayMap extends Activity implements com.google.android.gms.location
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        String title = readFromTag(intent);
+        LocationNFC bhoo = new LocationNFC(title);
+        bhoo.execute(buildParameter(title.substring(title.indexOf(" ")+1)));
+    }
+
+    public void makeToast(String title){
+        Toast.makeText(this,title,Toast.LENGTH_LONG).show();
+    }
+
+    public String buildParameter(String checkPointNumber){
+        System.out.println("dd"+checkPointNumber);
+        return "lat="+currentLocation.getLatitude()+"&"
+                +"long="+currentLocation.getLongitude()+"&"+
+                "checkpoint="+checkPointNumber;
+
+    }
+
+    public String readFromTag(Intent intent){
+        String str="";
+        if(intent.getType() != null && intent.getType().equals("application/tag")) {
+            Parcelable[] rawMsgs =intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            NdefMessage msg = (NdefMessage) rawMsgs[0];
+            NdefRecord record = msg.getRecords()[0];
+            str = new String(record.getPayload());
+        }
+        return str;
+    }
+
+    public void drawCheckpoint(String title){
+        googlemap.addMarker(new MarkerOptions().
+                position(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude())).
+                title(title).icon(BitmapDescriptorFactory.fromResource(R.drawable.checkpoint_icon)));
+    }
 
     protected void createLocationRequest() {
         locationRequest = new LocationRequest();
@@ -94,7 +125,6 @@ public class PlayMap extends Activity implements com.google.android.gms.location
     @Override
     public void onLocationChanged(Location location) {
         currentLocation = location;
-        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         drawTrail();
         centreMapToLastLocation();
     }
@@ -104,6 +134,7 @@ public class PlayMap extends Activity implements com.google.android.gms.location
     protected void onPause() {
         super.onPause();
         stopLocationUpdates();
+        nfcAdapter.disableForegroundDispatch(this);
     }
 
     @Override
@@ -112,6 +143,8 @@ public class PlayMap extends Activity implements com.google.android.gms.location
         if (apiClient.isConnected()) {
             startLocationUpdates();
         }
+
+        updateDb();
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -175,6 +208,7 @@ public class PlayMap extends Activity implements com.google.android.gms.location
         googlemap.addPolyline(options);
     }
 
+
     public static LatLng getZombieLocation(double x0, double y0, int radius) {
         Random random = new Random();
         // Convert radius from meters to degrees
@@ -196,7 +230,6 @@ public class PlayMap extends Activity implements com.google.android.gms.location
     }
 
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 
     @Override
@@ -207,8 +240,69 @@ public class PlayMap extends Activity implements com.google.android.gms.location
         startLocationUpdates();
     }
 
+    private void updateDb() {
+        // set up a PendingIntent to open the app when a tag is scanned
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        try {
+            tagDetected.addDataType("*/*");
+        } catch (IntentFilter.MalformedMimeTypeException e) {
+            e.printStackTrace();
+        }
+        IntentFilter[] filters = new IntentFilter[] { tagDetected };
+
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, filters, null);
+    }
+
     @Override
     public void onConnectionSuspended(int i) {
 
+    }
+
+    public class LocationNFC extends AsyncTask<String, Void, Boolean>{
+        private String checkPoint;
+        String request = "http://rickx.ddns.net/LocationServ";
+        URL url = null;
+        HttpURLConnection connection = null;
+
+        public LocationNFC(String checkPoint) {
+            this.checkPoint = checkPoint;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            try {
+                url = new URL(request);
+                connection = (HttpURLConnection) url.openConnection();
+                sendPost(params[0]);
+                readFromServlet();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+        private String readFromServlet() throws IOException {
+            BufferedReader stream = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            return stream.readLine();
+        }
+
+        private void sendPost(String message) throws IOException {
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty( "charset", "utf-8");
+            connection.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+            wr.write(message);
+            wr.flush();
+            wr.close();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            makeToast("Updated Database with current Location\n"+checkPoint);
+            drawCheckpoint(checkPoint);
+        }
     }
 }

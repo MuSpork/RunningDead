@@ -62,7 +62,7 @@
     <string name="registerSuccessPrompt1">Your Registration has been completed</string>
     <string name="registerSuccessPrompt3">Thanks for registering with Running Dead!</string>
 
-    <string name="done_button2">BACK TO MENU</string>
+    <string name="done_button2">Back to Login</string>
 
     <!-- RegisterUnsuccessful Strings/Variables-->
 

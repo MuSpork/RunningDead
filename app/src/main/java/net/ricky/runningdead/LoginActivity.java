@@ -278,7 +278,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 connection = (HttpURLConnection) url.openConnection();
                 sendPost(urlParam);
                 String response = readFromServlet();
-                System.out.println(response);
                 if(response.equals(mPassword)) {
                     launchMainActivity();
                     bool = true;
@@ -296,7 +295,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
-                System.out.println("in thread sleep");
             } catch (InterruptedException e) {
                 return false;
             }

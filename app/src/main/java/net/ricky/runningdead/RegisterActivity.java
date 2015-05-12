@@ -119,7 +119,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         for(EditText texts : edits){
             strings.add(texts.getText().toString());
         }
-        System.out.println("ArrayList = "+strings.toString());
 
         return Arrays.copyOf(strings.toArray(),strings.toArray().length,String[].class);
     }
@@ -133,7 +132,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 "password="+texts[3]+"&" +
                 "gender="+spinner.getSelectedItem().toString()+"&"+
                 "dateOfBirth="+texts[4];
-        System.out.println("Inside buildParamater = "+body);
         return body;
     }
 
@@ -147,7 +145,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             try {
                 url = new URL(request);
                 connection = (HttpURLConnection) url.openConnection();
-                System.out.println("String inside dobackground= "+params[0]);
                 sendPost(params[0]);
                 String response = readFromServlet();
             } catch (IOException e) {

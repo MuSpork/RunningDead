@@ -1,9 +1,12 @@
 package net.ricky.runningdead;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 //needs onclick listener for button and needs to be linked to registerActivity
 public class RegisterSuccessful extends ActionBarActivity {
@@ -12,6 +15,15 @@ public class RegisterSuccessful extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_successful);
+        Button backToMenu = (Button)findViewById(R.id.done_button2);
+        final Intent intent = new Intent(this,LoginActivity.class);
+        backToMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
 

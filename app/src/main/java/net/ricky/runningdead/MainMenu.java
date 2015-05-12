@@ -17,7 +17,6 @@ public class MainMenu extends ActionBarActivity {
         setContentView(R.layout.activity_main_menu);
         Button playButton = (Button) findViewById(R.id.playButton);
         Button howToPlay = (Button) findViewById(R.id.howToPlayButton);
-        Button useNFCButton = (Button) findViewById(R.id.runNFCButton);
         Button scoreButton = (Button) findViewById(R.id.scoreButton);
         setTitle("Main Menu");
         final Intent intent = new Intent(this,PlayMap.class);
@@ -35,13 +34,6 @@ public class MainMenu extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(intent1);
-            }
-        });
-        useNFCButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                startActivity(nfcIntent);
             }
         });
         scoreButton.setOnClickListener(new View.OnClickListener(){
